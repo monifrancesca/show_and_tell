@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var login = require('./routes/login');
 
 var app = express();
 
@@ -16,6 +17,22 @@ app.set('view engine', 'jade');
 
 
 /*
+//var cfg = {
+  client: "pg",
+  connection:
+  {
+    host: 'localhost',
+    user: 'newmac',
+    database: 'showtell',
+    password: ''
+  }
+};
+
+var knex = require("knex")(cfg);
+knex.destroy();
+
+console.log("Done.");
+
 var knex = require('knex')({
   client: 'mysql',
   connection: {
@@ -76,9 +93,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'vendor')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+app.use('/login', login);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
